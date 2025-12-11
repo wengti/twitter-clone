@@ -281,7 +281,7 @@ function handleCancelCommentClick(replyId, tweetId) {
     const targetReplyIndex = targetTweetObj.replies.findIndex( function(reply) {
         return reply.uuid === replyId
     })
-    targetTweetObj.replies.splice(targetReplyIndex, targetReplyIndex+1)
+    targetTweetObj.replies.splice(targetReplyIndex, 1)
 
     render()
 }

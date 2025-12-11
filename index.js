@@ -1,53 +1,70 @@
 import { tweetsDataDefault } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
+//                                          --- Setup / Initialization ---
+// Decide whether to load the tweetsData from Local Storage or from default JS
 let tweetsData = []
-
 if ( JSON.parse(localStorage.getItem("tweetsDataFromLS")) ){
     tweetsData = JSON.parse(localStorage.getItem("tweetsDataFromLS"))
 } else {
     tweetsData = tweetsDataDefault
 }
 
+// Call the render upon loading the page
+render()
+
+
+
+//                                          --- Event Listener ---
+// For all the click events
 document.addEventListener('click', function(e){
-    if(e.target.dataset.like){
+    
+    if(e.target.dataset.like){                          //When like icon is clicked
        handleLikeClick(e.target.dataset.like) 
-    }
+    }                                                   //When retweet icon is clicked
     else if(e.target.dataset.retweet){
         handleRetweetClick(e.target.dataset.retweet)
-    }
+    }                                                   //When reply icon is clicked
     else if(e.target.dataset.reply){
         handleReplyClick(e.target.dataset.reply)
-    }
+    }                                                   //When the tweet btn (at the top) is clicked
     else if(e.target.id === 'tweet-btn'){
         handleTweetBtnClick()
-    } 
+    }                                                   //When the tweet reply (for comment) is clicked
     else if(e.target.dataset.replyBtn){
         handleReplyEnter(e.target.dataset.replyBtn)
-    }
+    }                                                   //When the X btn is clicked at the comment section
     else if(e.target.dataset.cancelComment){
-        handleCancelCommentClick(e.target.dataset.cancelComment, e.target.dataset.cancel)
+        handleCancelCommentClick(e.target.dataset.cancelComment, 
+                                e.target.dataset.cancel)
     }
-    else if(e.target.dataset.cancel){
+    else if(e.target.dataset.cancel){                   //When the X btn is clicked at the post section
         handleCancelClick(e.target.dataset.cancel)
     }
     
-
+    // Once an interaction is completed, the updated tweetsData array is saved to Local Storage
     localStorage.setItem("tweetsDataFromLS", JSON.stringify(tweetsData))
 })
 
+
+// For all the shift + enter event
 document.addEventListener('keydown', function(e) {
-    if (e.key === "Enter" && e.shiftKey && e.target.dataset.yourReply) {
-        e.preventDefault()
+    if (e.key === "Enter" && e.shiftKey && e.target.dataset.yourReply) {        //When this event happens for new reply
+        e.preventDefault() // Prevent an extra newline after input
         handleReplyEnter(e.target.dataset.yourReply)
-    } else if (e.key === "Enter" && e.shiftKey && e.target.id === 'tweet-input') {
-        e.preventDefault()
+    } else if (e.key === "Enter" && e.shiftKey && e.target.id === 'tweet-input') { //When this event happens for new tweet
+        e.preventDefault() // Prevent an extra newline after input
         handleTweetBtnClick()
     }
 
+    // Once an interaction is completed, the updated tweetsData array is saved to Local Storage
     localStorage.setItem("tweetsDataFromLS", JSON.stringify(tweetsData))
 })
- 
+
+
+
+//                                          --- Functions for Event Listener ---
+//When like icon is clicked
 function handleLikeClick(tweetId){ 
     const targetTweetObj = tweetsData.filter(function(tweet){
         return tweet.uuid === tweetId
@@ -63,6 +80,7 @@ function handleLikeClick(tweetId){
     render()
 }
 
+//When retweet icon is clicked
 function handleRetweetClick(tweetId){
     const targetTweetObj = tweetsData.filter(function(tweet){
         return tweet.uuid === tweetId
@@ -78,6 +96,7 @@ function handleRetweetClick(tweetId){
     render() 
 }
 
+//When reply icon is clicked
 function handleReplyClick(replyId){
     const targetTweetObj = tweetsData.filter(function(tweet) {
         return tweet.uuid === replyId
@@ -87,6 +106,7 @@ function handleReplyClick(replyId){
     render()
 }
 
+//When the tweet btn (at the top) is clicked or sent with shift + enter
 function handleTweetBtnClick(){
     const tweetInput = document.getElementById('tweet-input')
 
@@ -109,6 +129,8 @@ function handleTweetBtnClick(){
 
 }
 
+
+//When the tweet reply (for comment) is clicked or sent with shift + enter
 function handleReplyEnter(tweetId) {
     let yourReply = document.getElementById(`your-reply-to-${tweetId}`).value
 
@@ -131,13 +153,41 @@ function handleReplyEnter(tweetId) {
         }
 }
 
+//When the X btn is clicked at the comment section
+function handleCancelCommentClick(replyId, tweetId) {
+    const targetTweetObj = tweetsData.filter( function(tweet) {
+        return tweet.uuid === tweetId
+    })[0]
+    const targetReplyIndex = targetTweetObj.replies.findIndex( function(reply) {
+        return reply.uuid === replyId
+    })
+    targetTweetObj.replies.splice(targetReplyIndex, 1)
+
+    render()
+}
+
+//When the X btn is clicked at the post section
+function handleCancelClick(tweetId) {
+
+    const targetTweetObjIndex = tweetsData.findIndex(function(tweet) {
+        return tweet.uuid === tweetId
+    })
+    tweetsData.splice(0, targetTweetObjIndex+1)
+
+    render()
+}
+
+//                                          --- For Rendering The Page ---
+function render(){
+    document.getElementById('feed').innerHTML = getFeedHtml()
+}
+
 function getFeedHtml(){
     let feedHtml = ``
     
     tweetsData.forEach(function(tweet){
         
         let likeIconClass = ''
-        
         if (tweet.isLiked){
             likeIconClass = 'liked'
         }
@@ -266,31 +316,8 @@ function getFeedHtml(){
 }
 
 
-function handleCancelClick(tweetId) {
-
-    const targetTweetObjIndex = tweetsData.findIndex(function(tweet) {
-        return tweet.uuid === tweetId
-    })
-    tweetsData.splice(0, targetTweetObjIndex+1)
-
-    render()
-}
 
 
-function handleCancelCommentClick(replyId, tweetId) {
-    const targetTweetObj = tweetsData.filter( function(tweet) {
-        return tweet.uuid === tweetId
-    })[0]
-    const targetReplyIndex = targetTweetObj.replies.findIndex( function(reply) {
-        return reply.uuid === replyId
-    })
-    targetTweetObj.replies.splice(targetReplyIndex, 1)
 
-    render()
-}
 
-function render(){
-    document.getElementById('feed').innerHTML = getFeedHtml()
-}
 
-render()

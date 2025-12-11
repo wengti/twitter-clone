@@ -246,6 +246,8 @@ function getFeedHtml(){
                     data-cancel="${tweet.uuid}"/>
             </div>
             `
+
+            xxxx
         } 
     
         feedHtml += `

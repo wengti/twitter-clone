@@ -1,9 +1,17 @@
 # Twitter Clone
 A simple project attempting to recreate the basic functions of Twitter using HTML, CSS and JavaScript.
 
-![Initial Loading](./images/demo/initial-loading.png) ![Icon Interaction](./images/demo/icon-interaction.png)
+Initial Loading
+![Initial Loading](./images/demo/initial-loading.png) 
 
-![Added Tweet](./images/demo/added-tweet.png) ![Added Reply](./images/demo/added-reply.png)
+Interaction with the icons
+![Icon Interaction](./images/demo/icon-interaction.png)
+
+Added a new tweet
+![Added Tweet](./images/demo/added-tweet.png) 
+
+Added a new reply / comment
+![Added Reply](./images/demo/added-reply.png)
 
 ## Features / Implementation
 * Tweet Data Storage

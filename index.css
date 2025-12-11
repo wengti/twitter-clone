@@ -4,7 +4,7 @@ html, body {
     font-family: 'Roboto', sans-serif;
 }
 
-/* typography and icons */
+/*                      ---typography and icons---                  */
 
 h1{
     color: #0F8CDF;
@@ -30,7 +30,6 @@ i{
 }
 
 /* layout */
-
 main, header{
     width: 290px;
     margin: 0 auto;
@@ -46,8 +45,11 @@ header{
     gap: 10px;
 }
 
-/* textareas + btn */
 
+
+/*                     ---textareas + btn---                   */
+
+/* Text area for user's input tweet */
 #tweet-input{
     border: none;
     resize: none;
@@ -59,6 +61,7 @@ header{
     line-height: 30px;
 }
 
+/* Button for user's input tweet */
 #tweet-btn{
     background-color: #1DA1F2;
     border: none;
@@ -71,8 +74,9 @@ header{
     font-weight: 600;
 }
 
-/* tweet */
+/*                        ---tweet---                */
 
+/*  The outer container for a tweet*/
 .tweet{
     border-top: 1px solid lightgray;
     padding: 20px 0 0 0;
@@ -81,23 +85,87 @@ header{
     position: relative;
 }
 
+/* Styling for the X btn */
+.cancel-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+}
+
+/* The inner container for a tweet (not including x and icons) */
 .tweet-inner{
     display: flex;
     align-items: flex-start;
     gap: 10px;
 }
 
-.tweet-inner-reply {
-    display: flex;
-    align-items: center;
-
+/* Styling for account handle */
+.handle{
+    font-size: 12px;
+    font-weight: 500;
+    color: #555;
+    margin-top: 0;
 }
 
+/* Styling for tweet text */
+.tweet-text{
+    width: 207px;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+/* Styling for a profile picture */
+.profile-pic{
+    border: 1px solid lightgray;
+    border-radius: 50%;
+    width: 48px;
+}
+
+/* Container for all the icons in a tweet (comment, like, retweet) */
+.tweet-details{
+    display: flex;
+    font-size: 13px;
+    justify-content: space-between;
+    width: 160px;
+}
+
+/* Container for a single icon (including its icon and count) */
+.tweet-detail{
+    display: flex;
+    gap: 4px;
+}
+
+/*                        ---Tweet replies/comments section---                */
+/* The outer container for the tweet replies section */
+.tweet-reply{
+    border-top: 1px solid lightgray;
+    padding: 20px 0 0 0px;
+    margin: 10px 0 10px 40px;
+    width: 80%;
+    position: relative;
+}
+
+/*                       ---User' input tweet section---                    */
+
+/* The outer container for the user input tweet*/
+.your-tweet-reply{
+    border-top: 1px solid lightgray;
+    padding: 10px 0 0 0px;
+    margin: 10px 0 10px 40px;
+    width: 80%;
+}
+
+/* The inner container */
 .your-tweet-inner-reply {
     display: flex;
     border-radius: 10px;
 }
 
+
+
+/* The text input area */
 .your-tweet-inner-reply textarea{
     resize: none;
     border-radius: 10px 0 0 10px;
@@ -110,6 +178,7 @@ header{
     font-family: inherit;
 }
 
+/* The input button */
 .your-tweet-inner-reply button {
     background-color: #1DA1F2;
     border: none;
@@ -119,69 +188,17 @@ header{
     font-weight: 600;
 }
 
-.white-color {
-    color: white;
-}
 
-.tweet-details{
-    display: flex;
-    font-size: 13px;
-    justify-content: space-between;
-    width: 160px;
-}
 
-.tweet-detail{
-    display: flex;
-    gap: 4px;
-}
-
-.tweet-reply{
-    border-top: 1px solid lightgray;
-    padding: 20px 0 0 0px;
-    margin: 10px 0 10px 40px;
-    width: 80%;
-    position: relative;
-}
-
-.your-tweet-reply{
-    border-top: 1px solid lightgray;
-    padding: 10px 0 0 0px;
-    margin: 10px 0 10px 40px;
-    width: 80%;
-}
-
-.handle{
-    font-size: 12px;
-    font-weight: 500;
-    color: #555;
-    margin-top: 0;
-}
-
-.tweet-text{
-    width: 207px;
-    font-size: 14px;
-    line-height: 20px;
-}
-
-.cancel-btn {
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20px;
-}
-
-/* images */
-
-.profile-pic{
-    border: 1px solid lightgray;
-    border-radius: 50%;
-    width: 48px;
-}
-
-/* utility */
+/*             ---utility---                */
+/* The class to toggle to show / not show the reply section */
 .hidden{
     display: none;
+}
+
+/* The class to make the enter icon for comment reply in white*/
+.white-color {
+    color: white;
 }
 
 .cancel-btn img {

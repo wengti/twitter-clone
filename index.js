@@ -183,38 +183,35 @@ function render(){
 }
 
 function getFeedHtml(){
+
+    // Initialize the overall content for rendering
     let feedHtml = ``
     
+    // Iterate over each object / tweet in tweetsData
     tweetsData.forEach(function(tweet){
         
-        let likeIconClass = ''
-        if (tweet.isLiked){
-            likeIconClass = 'liked'
-        }
+        // check boolean flags in tweetsDat to decide 
+        // the rendering of like icons, retweet icons and comment section
+        let likeIconClass = (tweet.isLiked) ? "liked" : ""
+        let retweetIconClass = (tweet.isRetweeted) ? "retweeted" : ""
+        let hiddenClass = (tweet.isCommentHidden) ? "hidden" : ""
         
-        let retweetIconClass = ''
-        
-        if (tweet.isRetweeted){
-            retweetIconClass = 'retweeted'
-        }
-
-        let hiddenClass = "hidden"
-        if (!(tweet.isCommentHidden)) {
-            hiddenClass = ""
-        }
-
-        
+        // Initialize the content for comment / replies section
         let repliesHtml = ''
         
+        // Iterate over EACH REPLY OBJECT
         if(tweet.replies.length > 0){
             tweet.replies.forEach(function(reply){
 
-                const isUserReply = (reply.handle === "@Scrimba") ? true : false
-
+                
+                // The first div for this section
                 repliesHtml += `
                     <div class="tweet-reply">
                     `
                 
+                // Check if the reply belongs to the current user
+                //Add X button if it belongs to the current user (so it can be deleted)
+                const isUserReply = (reply.handle === "@Scrimba") ? true : false
                 if (isUserReply) {
                     repliesHtml += `
                         <div class="cancel-btn">
@@ -239,7 +236,10 @@ function getFeedHtml(){
                     `        
             })
         }
+        // End of iterating over EACH REPLY OBJECT 
 
+        // Continue populating the content for comment sections
+        // with the reply text box
         repliesHtml += `
             <div class="your-tweet-reply">
                 <div class="your-tweet-inner-reply">
@@ -256,10 +256,16 @@ function getFeedHtml(){
             </div>
             `    
         
+        // Populating the overall content to be rendered (for a single tweet)
+        // The replies content created above is included here 
 
+        // The first div for this section
         feedHtml += `
             <div class="tweet">
             `
+        
+        // Check if the tweet belongs to the current user
+        //Add X button if it belongs to the current user (so it can be deleted)
         const isUserTweet = (tweet.handle === "@Scrimba") ? true : false
         if (isUserTweet) {
             feedHtml += `
@@ -271,7 +277,8 @@ function getFeedHtml(){
             </div>
             `
         } 
-          
+        
+        // Populate the entire content for a single tweet (including the hidden replies)
         feedHtml += `
                 <div class="tweet-inner">
                     <img src="${tweet.profilePic}" class="profile-pic">
@@ -301,15 +308,11 @@ function getFeedHtml(){
                     </div>            
                 </div>
                 <div class="${hiddenClass}" id="replies-${tweet.uuid}">
-                    ${repliesHtml}
+                    ${repliesHtml}                            
                 </div>   
             </div>
-            `
-        
-    
-        
+            `        
    })
-   
    
 
    return feedHtml 

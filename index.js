@@ -110,22 +110,25 @@ function handleTweetBtnClick(){
 }
 
 function handleReplyEnter(tweetId) {
-    const targetTweetObj = tweetsData.filter( function(tweet) {
-        return tweet.uuid === tweetId
-    })[0]
-
     let yourReply = document.getElementById(`your-reply-to-${tweetId}`).value
 
-    targetTweetObj.replies.push({
-        handle: `@Scrimba`,
-        profilePic: `images/scrimbalogo.png`,
-        tweetText: yourReply,
-        uuid: uuidv4(),
-    })
+    if (yourReply){
+        const targetTweetObj = tweetsData.filter( function(tweet) {
+            return tweet.uuid === tweetId
+        })[0]
 
-    render()
-    yourReply = ""
+        
 
+        targetTweetObj.replies.push({
+            handle: `@Scrimba`,
+            profilePic: `images/scrimbalogo.png`,
+            tweetText: yourReply,
+            uuid: uuidv4(),
+        })
+
+        render()
+        yourReply = ""
+        }
 }
 
 function getFeedHtml(){

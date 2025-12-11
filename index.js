@@ -171,10 +171,11 @@ function getFeedHtml(){
                     `
                 if (isUserReply) {
                     repliesHtml += `
-                        <div class="cancel-btn" 
+                        <div class="cancel-btn">
+                        <img 
+                            src="./images/close-x.svg" 
                             data-cancel-comment="${reply.uuid}" 
-                            data-cancel="${tweet.uuid}">
-                        X
+                            data-cancel="${tweet.uuid}"/>
                         </div>
                     `
                 }
@@ -239,8 +240,10 @@ function getFeedHtml(){
         const isUserTweet = (tweet.handle === "@Scrimba") ? true : false
         if (isUserTweet) {
             feedHtml += `
-            <div class="cancel-btn" data-cancel="${tweet.uuid}">
-            X
+            <div class="cancel-btn" >
+                <img 
+                    src="./images/close-x.svg" 
+                    data-cancel="${tweet.uuid}"/>
             </div>
             `
         } 

@@ -2,7 +2,7 @@ import { tweetsDataDefault } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
 let tweetsData = []
-// localStorage.clear()
+localStorage.clear()
 
 if ( JSON.parse(localStorage.getItem("tweetsDataFromLS")) ){
     tweetsData = JSON.parse(localStorage.getItem("tweetsDataFromLS"))
@@ -159,31 +159,32 @@ function getFeedHtml(){
 
                 const isUserReply = (reply.handle === "@Scrimba") ? true : false
 
-                repliesHtml+=`
+                repliesHtml += `
                     <div class="tweet-reply">
-                        <div class="tweet-inner">
-                            <img src="${reply.profilePic}" class="profile-pic">
-                                <div>
-                                    <p class="handle">${reply.handle}</p>
-                                    <p class="tweet-text">${reply.tweetText}</p>
-                                </div>
-                        </div>   
                     `
+                
                 if (isUserReply) {
                     repliesHtml += `
                         <div class="cancel-btn">
                         <img 
                             src="./images/close-x.svg" 
                             data-cancel-comment="${reply.uuid}" 
-                            data-cancel="${tweet.uuid}"/>
+                            data-cancel="${tweet.uuid}"/
+                            tabindex="0">
                         </div>
                     `
                 }
-                    
-                repliesHtml += `
+
+                repliesHtml+=`
+                        <div class="tweet-inner">
+                            <img src="${reply.profilePic}" class="profile-pic">
+                                <div>
+                                    <p class="handle">${reply.handle}</p>
+                                    <p class="tweet-text">${reply.tweetText}</p>
+                                </div>
+                        </div>  
                     </div>
-                    `
-                    
+                    `        
             })
         }
 
@@ -203,9 +204,23 @@ function getFeedHtml(){
             </div>
             `    
         
-          
+
         feedHtml += `
             <div class="tweet">
+            `
+        const isUserTweet = (tweet.handle === "@Scrimba") ? true : false
+        if (isUserTweet) {
+            feedHtml += `
+            <div class="cancel-btn" >
+                <img 
+                    src="./images/close-x.svg" 
+                    data-cancel="${tweet.uuid}"
+                    tabindex="0"/>
+            </div>
+            `
+        } 
+          
+        feedHtml += `
                 <div class="tweet-inner">
                     <img src="${tweet.profilePic}" class="profile-pic">
                     <div>
@@ -236,23 +251,11 @@ function getFeedHtml(){
                 <div class="${hiddenClass}" id="replies-${tweet.uuid}">
                     ${repliesHtml}
                 </div>   
-            `
-        const isUserTweet = (tweet.handle === "@Scrimba") ? true : false
-        if (isUserTweet) {
-            feedHtml += `
-            <div class="cancel-btn" >
-                <img 
-                    src="./images/close-x.svg" 
-                    data-cancel="${tweet.uuid}"/>
             </div>
             `
-
-            xxxx
-        } 
+        
     
-        feedHtml += `
-            </div>
-            `
+        
    })
    
    
@@ -262,7 +265,7 @@ function getFeedHtml(){
 
 
 function handleCancelClick(tweetId) {
-    
+
     const targetTweetObjIndex = tweetsData.findIndex(function(tweet) {
         return tweet.uuid === tweetId
     })
@@ -271,6 +274,7 @@ function handleCancelClick(tweetId) {
     render()
 }
 
+// localStorage.clear()
 
 
 function handleCancelCommentClick(replyId, tweetId) {

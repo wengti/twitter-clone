@@ -2,7 +2,6 @@ import { tweetsDataDefault } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
 let tweetsData = []
-localStorage.clear()
 
 if ( JSON.parse(localStorage.getItem("tweetsDataFromLS")) ){
     tweetsData = JSON.parse(localStorage.getItem("tweetsDataFromLS"))
@@ -274,8 +273,6 @@ function handleCancelClick(tweetId) {
     render()
 }
 
-// localStorage.clear()
-
 
 function handleCancelCommentClick(replyId, tweetId) {
     const targetTweetObj = tweetsData.filter( function(tweet) {
@@ -284,8 +281,7 @@ function handleCancelCommentClick(replyId, tweetId) {
     const targetReplyIndex = targetTweetObj.replies.findIndex( function(reply) {
         return reply.uuid === replyId
     })
-
-    targetTweetObj.replies.splice(0, targetReplyIndex+1)
+    targetTweetObj.replies.splice(targetReplyIndex, targetReplyIndex+1)
 
     render()
 }
